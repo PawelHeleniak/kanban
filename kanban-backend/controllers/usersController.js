@@ -39,8 +39,21 @@ const createUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const result = await db.query("DELETE FROM users WHERE id = $1", [userId]);
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Błąd przy usuwaniu użytkownika");
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUser,
   createUser,
+  deleteUser,
 };
