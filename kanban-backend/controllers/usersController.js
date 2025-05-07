@@ -51,9 +51,30 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// Logowanie
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const result = await db.query(
+      "SELECT * FROM users WHERE email = $1 AND password = $2",
+      [email, password]
+    );
+    if (result.rows.length === 0) {
+      res.status(401).send({ message: "Logowanie nie powiodło się" });
+    }
+    res
+      .status(201)
+      .json({ message: "Zalogowano pomyślnie", user: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: "Błąd serwera" });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUser,
   createUser,
   deleteUser,
+  loginUser,
 };
