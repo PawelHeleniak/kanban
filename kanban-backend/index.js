@@ -10,12 +10,14 @@ const PORT = process.env.PORT || 3000;
 
 const usersRouter = require("./routes/users");
 const mailRouter = require("./routes/mail");
+const projectsRouter = require("./routes/projects");
 
 app.use(cors());
 app.use(express.json());
 
 app.use("/auth", usersRouter);
 app.use("/mail", mailRouter);
+app.use("/project", projectsRouter);
 
 app.listen(PORT, () => {
   console.log(`Server działa na http://localhost:${PORT}`);
